@@ -79,6 +79,7 @@ public class WebSecurityConfig {
 		.requestMatchers("/api/users/register/*").permitAll()
 				.requestMatchers("/api/users/login/*").permitAll()
 				.requestMatchers("/api/users/register").permitAll()
+				.requestMatchers("/api/facture/*").permitAll()
 				.requestMatchers("/api/users/login").permitAll()
 				.requestMatchers("/api/account/pin/*").permitAll()
 				.requestMatchers("/api/dashboard/*").permitAll()
