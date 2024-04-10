@@ -1,12 +1,9 @@
 package com.webapp.bankingportal.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 public class Account {
@@ -23,9 +20,20 @@ public class Account {
 	private String IFSC_code = "NIT001";
 	private String Pin;
 	private String accountstatus;
+
+    @JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "bank_account_type_id", nullable = false)
+	private BankAccType bankAccType;
+
+	@Column(name="removed",precision = 0)
+	private boolean removed;
 	@OneToOne
 	@JoinColumn(name = "user_id")
 	private User user;
+
+	@OneToMany(mappedBy = "bankAccount", fetch = FetchType.EAGER)
+	private Set<ExchangeCurrency> exchanges;
 
 	public Long getId() {
 		return id;
