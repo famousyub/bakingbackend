@@ -1,9 +1,12 @@
 package com.webapp.bankingportal.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -14,12 +17,79 @@ import jakarta.validation.constraints.Size;
 				@UniqueConstraint(columnNames = "username"),
 				@UniqueConstraint(columnNames = "email")
 		})
-public class User {
+public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
 	private String password;
+
+
+	private String phone;
+
+
+	private boolean enabled = true;
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public PrimaryAccount getPrimaryAccount() {
+		return primaryAccount;
+	}
+
+	public void setPrimaryAccount(PrimaryAccount primaryAccount) {
+		this.primaryAccount = primaryAccount;
+	}
+
+	public SavingsAccount getSavingsAccount() {
+		return savingsAccount;
+	}
+
+	public void setSavingsAccount(SavingsAccount savingsAccount) {
+		this.savingsAccount = savingsAccount;
+	}
+
+	public List<Appointment> getAppointmentList() {
+		return appointmentList;
+	}
+
+	public void setAppointmentList(List<Appointment> appointmentList) {
+		this.appointmentList = appointmentList;
+	}
+
+	public List<Recipient> getRecipientList() {
+		return recipientList;
+	}
+
+	public void setRecipientList(List<Recipient> recipientList) {
+		this.recipientList = recipientList;
+	}
+
+	@OneToOne
+	private PrimaryAccount primaryAccount;
+
+	@OneToOne
+	private SavingsAccount savingsAccount;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonIgnore
+	private List<Appointment> appointmentList;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Recipient> recipientList;
 
 	public String getUsername() {
 		return username;
@@ -62,8 +132,11 @@ public class User {
 	private Set<Role> roles = new HashSet<>();
 
 	// Establishing a one-to-one relationship with the account
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-	private Account account;
+
+	@JsonIgnore
+	//@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<Account> account;
 
 	public User() {
 	}
@@ -116,14 +189,13 @@ public class User {
 		this.phone_number = phone_number;
 	}
 
-	public Account getAccount() {
+
+	public List<Account> getAccount() {
 		return account;
 	}
 
-	// Convenience method to set the user's account
-	public void setAccount(Account account) {
+	public void setAccount(List<Account> account) {
 		this.account = account;
-		account.setUser(this);
 	}
 
 	public int getOtpRetryCount() {

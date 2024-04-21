@@ -3,10 +3,11 @@ package com.webapp.bankingportal.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-public class Account {
+public class Account implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +20,31 @@ public class Account {
 	private String branch = "NIT";
 	private String IFSC_code = "NIT001";
 	private String Pin;
+
+	public BankAccType getBankAccType() {
+		return bankAccType;
+	}
+
+	public void setBankAccType(BankAccType bankAccType) {
+		this.bankAccType = bankAccType;
+	}
+
+	public boolean isRemoved() {
+		return removed;
+	}
+
+	public void setRemoved(boolean removed) {
+		this.removed = removed;
+	}
+
+	public Set<ExchangeCurrency> getExchanges() {
+		return exchanges;
+	}
+
+	public void setExchanges(Set<ExchangeCurrency> exchanges) {
+		this.exchanges = exchanges;
+	}
+
 	private String accountstatus;
 
     @JsonIgnore
@@ -28,8 +54,11 @@ public class Account {
 
 	@Column(name="removed",precision = 0)
 	private boolean removed;
-	@OneToOne
-	@JoinColumn(name = "user_id")
+
+
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "user_id",nullable = false)
 	private User user;
 
 	@OneToMany(mappedBy = "bankAccount", fetch = FetchType.EAGER)

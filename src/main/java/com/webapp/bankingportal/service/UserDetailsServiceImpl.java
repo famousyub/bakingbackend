@@ -46,7 +46,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         // Return a UserDetails object that wraps the User entity
         return new org.springframework.security.core.userdetails.User(
-                user.getAccount().getAccountNumber(),  // Use account number as the username
+                user.getAccount().get(0).getAccountNumber(),  // Use account number as the username
                 user.getPassword(),
                 Collections.emptyList()
         );

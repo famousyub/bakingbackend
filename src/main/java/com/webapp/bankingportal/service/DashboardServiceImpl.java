@@ -34,7 +34,7 @@ public class DashboardServiceImpl implements DashboardService {
         userResponse.setEmail(user.getEmail());
         userResponse.setAddress(user.getAddress());
         userResponse.setPhone_number(user.getPhone_number());
-        userResponse.setAccountNumber(user.getAccount().getAccountNumber());
+        userResponse.setAccountNumber(user.getAccount().get(0).getAccountNumber());
 
         return userResponse;
     }

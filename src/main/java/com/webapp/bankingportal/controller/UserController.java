@@ -153,10 +153,10 @@ public class UserController {
         UserResponse userResponse = new UserResponse();
         userResponse.setName(registeredUser.getName());
         userResponse.setEmail(registeredUser.getEmail());
-        userResponse.setAccountNumber(registeredUser.getAccount().getAccountNumber());
-        userResponse.setIFSC_code(registeredUser.getAccount().getIFSC_code());
-        userResponse.setBranch(registeredUser.getAccount().getBranch());
-        userResponse.setAccount_type(registeredUser.getAccount().getAccount_type());
+        userResponse.setAccountNumber(registeredUser.getAccount().get(0).getAccountNumber());
+        userResponse.setIFSC_code(registeredUser.getAccount().get(0).getIFSC_code());
+        userResponse.setBranch(registeredUser.getAccount().get(0).getBranch());
+        userResponse.setAccount_type(registeredUser.getAccount().get(0).getAccount_type());
 
 
         return ResponseEntity.ok(userResponse);
@@ -359,10 +359,10 @@ public class UserController {
         UserResponse userResponse = new UserResponse();
         userResponse.setName(updateUser.getName());
         userResponse.setEmail(updateUser.getEmail());
-        userResponse.setAccountNumber(updateUser.getAccount().getAccountNumber());
-        userResponse.setIFSC_code(updateUser.getAccount().getIFSC_code());
-        userResponse.setBranch(updateUser.getAccount().getBranch());
-        userResponse.setAccount_type(updateUser.getAccount().getAccount_type());
+        userResponse.setAccountNumber(updateUser.getAccount().get(0) .  getAccountNumber());
+        userResponse.setIFSC_code(updateUser.getAccount().get(0) . getIFSC_code());
+        userResponse.setBranch(updateUser.getAccount().get(0) .  getBranch());
+        userResponse.setAccount_type(updateUser.getAccount().get(0) . getAccount_type());
 
 
         return ResponseEntity.ok(userResponse);

@@ -77,10 +77,12 @@ public class WebSecurityConfig {
 
 		http.csrf().disable().authorizeHttpRequests()
 		.requestMatchers("/api/users/register/*").permitAll()
+
 				.requestMatchers("/api/users/login/*").permitAll()
 				.requestMatchers("/api/users/register").permitAll()
 				.requestMatchers("/api/facture/*").permitAll()
 				.requestMatchers("/api/users/login").permitAll()
+				.requestMatchers("/api/myaccounts/*").permitAll()
 				.requestMatchers("/api/account/pin/*").permitAll()
 				.requestMatchers("/api/dashboard/*").permitAll()
 				.requestMatchers("/api/account/*").permitAll()
