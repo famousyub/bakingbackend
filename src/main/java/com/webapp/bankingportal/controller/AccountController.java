@@ -4,14 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.webapp.bankingportal.entity.User;
+import com.webapp.bankingportal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.webapp.bankingportal.dto.AmountRequest;
 import com.webapp.bankingportal.dto.FundTransferRequest;
@@ -32,8 +30,13 @@ public class AccountController {
 	@Autowired
 	private TransactionService transactionService;
 
+	@Autowired
+	private UserRepository userRepository ;
 	@GetMapping("/pin/check")
 	public ResponseEntity<?> checkAccountPIN() {
+
+		//User user  = userRepository.findByAccountAccountNumber(accountNumber);
+
 		boolean isPINValid = accountService.isPinCreated(LoggedinUser.getAccountNumber());
 
 		Map<String, Object> result = new HashMap<>();
