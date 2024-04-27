@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -98,7 +99,15 @@ public class MyAccountController {
     {
         List<Account> acoouts  = accountRepository.findAll();
 
-        return  ResponseEntity.ok().body(acoouts);
+        List<Account> l =   acoouts.stream().filter(el->{
+
+        return     el.getAccountNumber() .equals( LoggedinUser.getAccountNumber());
+
+        }).toList();
+
+
+
+        return  ResponseEntity.ok().body(l);
 
     }
 

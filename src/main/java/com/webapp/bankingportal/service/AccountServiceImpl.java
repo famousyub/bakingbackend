@@ -3,14 +3,12 @@ package com.webapp.bankingportal.service;
 import java.util.Date;
 import java.util.UUID;
 
+import com.webapp.bankingportal.entity.*;
+import com.webapp.bankingportal.repository.BankAccTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.webapp.bankingportal.entity.Account;
-import com.webapp.bankingportal.entity.Transaction;
-import com.webapp.bankingportal.entity.TransactionType;
-import com.webapp.bankingportal.entity.User;
 import com.webapp.bankingportal.exception.InsufficientBalanceException;
 import com.webapp.bankingportal.exception.NotFoundException;
 import com.webapp.bankingportal.exception.UnauthorizedException;
@@ -29,11 +27,17 @@ public class AccountServiceImpl implements AccountService {
 	@Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private BankAccTypeRepository bankAccTypeRepository;
+
 	@Override
     public Account createAccount(User user) {
         String accountNumber = generateUniqueAccountNumber();
         Account account = new Account();
         account.setAccountNumber(accountNumber);
+        BankAccType bnk = bankAccTypeRepository.findById(Long.parseLong("1")).get();
+        account.setBankAccType(bnk);
+        account.setUser(user);
         account.setBalance(0.0);
         return accountRepository.save(account);
     }
